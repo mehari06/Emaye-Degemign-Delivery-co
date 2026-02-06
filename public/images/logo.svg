@@ -1,0 +1,62 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+  fill="none"
+>
+  <title>Emaye Degemign Delivery</title>
+  <desc>Logo mark: burger in a fast delivery cart.</desc>
+
+  <g transform="translate(0, 18)">
+    <!-- Burger -->
+    <g transform="translate(64, 44)">
+      <path
+        d="M136 148c0-49 45-88 100-88s100 39 100 88c0 9-7 16-16 16H152c-9 0-16-7-16-16Z"
+        fill="#D2A06A"
+      />
+      <g fill="#F3E7D7" opacity="0.9">
+        <circle cx="200" cy="86" r="7" />
+        <circle cx="222" cy="78" r="6" />
+        <circle cx="244" cy="90" r="6" />
+        <circle cx="266" cy="80" r="7" />
+        <circle cx="290" cy="94" r="6" />
+      </g>
+      <rect x="142" y="176" width="188" height="30" rx="15" fill="#5A3724" />
+      <path
+        d="M148 224c20 11 36-11 52 0s29 9 44 0 31 11 48 0 33 9 48 0 31 11 48 0v18c0 9-7 16-16 16H164c-9 0-16-7-16-16v-18Z"
+        fill="#6E8F4D"
+      />
+      <path
+        d="M176 260h206c0 30-24 54-54 54h-98c-30 0-54-24-54-54Z"
+        fill="#F1A34B"
+      />
+      <path
+        d="M164 264h232c0 59-48 107-107 107h-18c-59 0-107-48-107-107Z"
+        fill="#D2A06A"
+      />
+    </g>
+
+    <!-- Cart + speed lines -->
+    <g stroke="#111827" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke-width="24">
+        <path d="M152 352L312 200" />
+        <path d="M312 200H356" />
+        <path d="M312 200V348" />
+        <path d="M152 352H250" />
+        <path d="M132 352H96" />
+      </g>
+
+      <g fill="#111827" stroke="none">
+        <circle cx="184" cy="392" r="20" />
+        <circle cx="268" cy="392" r="20" />
+      </g>
+
+      <g stroke-width="20">
+        <path d="M360 340H454" />
+        <path d="M372 374H470" />
+        <path d="M350 408H430" />
+      </g>
+    </g>
+  </g>
+</svg>

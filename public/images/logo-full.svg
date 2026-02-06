@@ -1,0 +1,104 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+  fill="none"
+>
+  <title>Emaye Degemign Delivery</title>
+  <desc>Logo mark: burger in a fast delivery cart with brand text.</desc>
+
+  <!-- Mark -->
+  <g transform="translate(0, -4)">
+    <!-- Burger -->
+    <g transform="translate(88, 52)">
+      <!-- Top bun -->
+      <path
+        d="M116 132c0-42 40-76 90-76s90 34 90 76c0 8-6 14-14 14H130c-8 0-14-6-14-14Z"
+        fill="#D2A06A"
+      />
+      <!-- Sesame seeds -->
+      <g fill="#F3E7D7" opacity="0.9">
+        <circle cx="176" cy="76" r="6" />
+        <circle cx="196" cy="68" r="5" />
+        <circle cx="214" cy="78" r="5" />
+        <circle cx="234" cy="70" r="6" />
+        <circle cx="252" cy="82" r="5" />
+      </g>
+
+      <!-- Patty -->
+      <rect x="120" y="156" width="172" height="26" rx="13" fill="#5A3724" />
+
+      <!-- Lettuce -->
+      <path
+        d="M126 198c18 10 32-10 48 0s26 8 40 0 28 10 44 0 30 8 44 0 28 10 44 0v18c0 8-6 14-14 14H140c-8 0-14-6-14-14v-18Z"
+        fill="#6E8F4D"
+      />
+
+      <!-- Cheese -->
+      <path
+        d="M150 232h190c0 28-22 50-50 50H200c-28 0-50-22-50-50Z"
+        fill="#F1A34B"
+      />
+
+      <!-- Bottom bun -->
+      <path
+        d="M140 236h212c0 54-44 98-98 98h-16c-54 0-98-44-98-98Z"
+        fill="#D2A06A"
+      />
+    </g>
+
+    <!-- Cart + speed lines -->
+    <g
+      stroke="#111827"
+      stroke-width="22"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      transform="translate(0, 0)"
+    >
+      <!-- Cart frame -->
+      <path d="M175 320L316 182" />
+      <path d="M316 182H354" />
+      <path d="M316 182V316" />
+      <path d="M175 320H256" />
+      <path d="M155 320H122" />
+
+      <!-- Wheels -->
+      <g fill="#111827" stroke="none">
+        <circle cx="205" cy="352" r="18" />
+        <circle cx="275" cy="352" r="18" />
+      </g>
+
+      <!-- Speed lines -->
+      <path d="M356 310H446" stroke-width="18" />
+      <path d="M366 342H462" stroke-width="18" />
+      <path d="M346 374H422" stroke-width="18" />
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <g fill="#111827" text-anchor="middle">
+    <text
+      x="256"
+      y="432"
+      font-family="Montserrat, Inter, Arial, sans-serif"
+      font-size="44"
+      font-weight="700"
+      letter-spacing="6"
+    >
+      EMAYE DEGMIGN
+    </text>
+    <text
+      x="256"
+      y="476"
+      font-family="Montserrat, Inter, Arial, sans-serif"
+      font-size="24"
+      font-weight="600"
+      letter-spacing="10"
+      opacity="0.9"
+    >
+      DELIVERY
+    </text>
+  </g>
+</svg>
+
