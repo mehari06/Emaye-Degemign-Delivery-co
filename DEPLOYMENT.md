@@ -91,3 +91,10 @@ npm run prisma:push
 3. Share contact → bot sends a “continue” link.
 4. Tap the link → you should be signed in and redirected to `/profile`.
 
+## 7) Bot ordering (optional)
+
+After sharing contact in Telegram, you can order without using the website:
+
+- Tap “Browse menu” to pick a category and add items to your cart.
+- Tap “My cart” → “Checkout (share location)” and share your delivery location.
+- Tap “My orders” to check order status.
