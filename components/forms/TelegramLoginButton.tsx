@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { buttonStyles } from "@/components/ui/buttonStyles";
 
 export function TelegramLoginButton() {
@@ -13,14 +14,25 @@ export function TelegramLoginButton() {
     );
   }
 
-  const telegramLink = `https://t.me/${botUsername}?start=login`;
+  const cleanUsername = botUsername.replace(/^@/, "");
+  const tgDeepLink = `tg://resolve?domain=${cleanUsername}&start=login`;
+  const webLink = `https://t.me/${cleanUsername}?start=login`;
+
+  const handleOpenTelegram = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    // Try to open the Telegram app first; fallback to web if it fails.
+    window.location.href = tgDeepLink;
+    window.setTimeout(() => {
+      window.open(webLink, "_blank", "noreferrer");
+    }, 600);
+  };
 
   return (
     <div className="space-y-2">
       <a
-        href={telegramLink}
-        target="_blank"
-        rel="noreferrer"
+        href={webLink}
+        onClick={handleOpenTelegram}
         className={buttonStyles({ variant: "secondary", size: "md" })}
       >
         Open Telegram bot
