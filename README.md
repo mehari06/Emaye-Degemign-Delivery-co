@@ -6,7 +6,7 @@ Tailwind CSS
 Prisma ORM
 Supabase (Postgres + Auth)
 Telegram Bot authentication
-Features
+#Features
 Menu browsing + cart
 Checkout flow
 User profile + order history
