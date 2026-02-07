@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
+import { getCurrentUser, isAdminUser } from "@/lib/auth";
 
-export function Footer() {
+export async function Footer() {
+  const user = await getCurrentUser();
+  const showAdmin = isAdminUser(user);
+
   return (
     <footer className="border-t border-border bg-white">
       <Container className="flex flex-col gap-8 py-10 md:flex-row md:items-center md:justify-between">
@@ -23,9 +27,11 @@ export function Footer() {
           <Link href="/profile" className="hover:text-slate-900">
             Profile
           </Link>
-          <Link href="/admin/orders" className="hover:text-slate-900">
-            Admin
-          </Link>
+          {showAdmin ? (
+            <Link href="/admin/orders" className="hover:text-slate-900">
+              Admin
+            </Link>
+          ) : null}
         </div>
       </Container>
     </footer>

@@ -39,3 +39,7 @@ npm run dev
 npm run build
 npm start
 ```
+
+## Deploy
+
+See `DEPLOYMENT.md`.

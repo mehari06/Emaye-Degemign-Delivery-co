@@ -3,14 +3,19 @@ import { SectionHeading } from "@/components/layout/SectionHeading";
 import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
 import { Select } from "@/components/ui/Select";
 import { updateOrderStatusAction } from "@/lib/actions/orders";
+import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { getAllOrders } from "@/lib/services/orders";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 type OrderWithRelations = Awaited<ReturnType<typeof getAllOrders>>[number];
 
 export default async function AdminOrdersPage() {
+  const user = await getCurrentUser();
+  if (!isAdminUser(user)) notFound();
+
   let orders: OrderWithRelations[] = [];
 
   try {

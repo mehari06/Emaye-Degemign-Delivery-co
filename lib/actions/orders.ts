@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { createOrder, updateOrderStatus } from "@/lib/services/orders";
 import { upsertGoogleUser } from "@/lib/services/users";
 import type { OrderStatus } from "@/lib/types";
@@ -70,6 +70,7 @@ export async function updateOrderStatusAction(
 ) {
   const user = await getCurrentUser();
   if (!user) return;
+  if (!isAdminUser(user)) return;
 
   const allowed = [
     "PENDING",
