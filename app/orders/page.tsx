@@ -2,6 +2,7 @@ import { Container } from "@/components/layout/Container";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { OrderCard } from "@/components/orders/OrderCard";
 import { OrderTimeline } from "@/components/orders/OrderTimeline";
+import { OrdersRealtimeObserver } from "@/components/realtime/OrdersRealtimeObserver";
 import { getCurrentUser } from "@/lib/auth";
 import { getOrdersForUser } from "@/lib/services/orders";
 import type { OrderSummary } from "@/lib/types";
@@ -54,6 +55,7 @@ export default async function OrdersPage() {
           title="Your delivery timeline"
           subtitle="Check the latest order status and revisit previous deliveries."
         />
+        <OrdersRealtimeObserver scope="user" userId={user.id} />
         {latestOrder ? (
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
             <OrderCard order={latestOrder} />

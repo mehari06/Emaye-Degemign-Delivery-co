@@ -2,6 +2,7 @@ import { Container } from "@/components/layout/Container";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
 import { Select } from "@/components/ui/Select";
+import { OrdersRealtimeObserver } from "@/components/realtime/OrdersRealtimeObserver";
 import { updateOrderStatusAction } from "@/lib/actions/orders";
 import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { getAllOrders } from "@/lib/services/orders";
@@ -32,6 +33,7 @@ export default async function AdminOrdersPage() {
           title="Order management"
           subtitle="Update order statuses and monitor active deliveries."
         />
+        <OrdersRealtimeObserver scope="admin" />
 
         {orders.length === 0 ? (
           <div className="rounded-2xl border border-border bg-surface p-8 text-center text-sm text-slate-600">
