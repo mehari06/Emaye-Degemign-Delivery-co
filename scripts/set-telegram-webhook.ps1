@@ -1,5 +1,3 @@
-$ErrorActionPreference = "Stop"
-
 param(
   [Parameter(Mandatory = $true)]
   [string]$BotToken,
@@ -8,6 +6,8 @@ param(
   [Parameter(Mandatory = $true)]
   [string]$WebhookSecret
 )
+
+$ErrorActionPreference = "Stop"
 
 if ($AppBaseUrl.EndsWith("/")) {
   $AppBaseUrl = $AppBaseUrl.TrimEnd("/")
@@ -25,4 +25,3 @@ Invoke-RestMethod `
   -Uri "https://api.telegram.org/bot$BotToken/setWebhook" `
   -ContentType "application/json" `
   -Body ($payload | ConvertTo-Json)
-
