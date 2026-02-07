@@ -98,3 +98,7 @@ After sharing contact in Telegram, you can order without using the website:
 - Tap “Browse menu” to pick a category and add items to your cart.
 - Tap “My cart” → “Checkout (share location)” and share your delivery location.
 - Tap “My orders” to check order status.
+
+### Location sharing notes
+
+- Telegram Desktop may not support location sharing. If so, paste a Google Maps link or coordinates like `9.0192, 38.7525` after tapping Checkout.

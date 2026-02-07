@@ -139,6 +139,45 @@ function normalizePhone(phone: string) {
   return phone.replace(/[^\d+]/g, "");
 }
 
+function extractLatLngFromText(text: string) {
+  const raw = text.trim();
+
+  const candidates: Array<{ lat: number; lng: number }> = [];
+
+  const simple = raw.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
+  if (simple) {
+    candidates.push({ lat: Number(simple[1]), lng: Number(simple[2]) });
+  }
+
+  const geo = raw.match(/geo:(-?\d{1,2}\.\d+),(-?\d{1,3}\.\d+)/i);
+  if (geo) {
+    candidates.push({ lat: Number(geo[1]), lng: Number(geo[2]) });
+  }
+
+  const qParam = raw.match(/[?&](?:q|ll)=(-?\d{1,2}\.\d+),(-?\d{1,3}\.\d+)/i);
+  if (qParam) {
+    candidates.push({ lat: Number(qParam[1]), lng: Number(qParam[2]) });
+  }
+
+  const at = raw.match(/@(-?\d{1,2}\.\d+),(-?\d{1,3}\.\d+)/);
+  if (at) {
+    candidates.push({ lat: Number(at[1]), lng: Number(at[2]) });
+  }
+
+  for (const candidate of candidates) {
+    if (
+      Number.isFinite(candidate.lat) &&
+      Number.isFinite(candidate.lng) &&
+      Math.abs(candidate.lat) <= 90 &&
+      Math.abs(candidate.lng) <= 180
+    ) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 async function ensureTelegramUser({
   telegramId,
   telegramUsername,
@@ -432,7 +471,10 @@ export async function POST(request: Request) {
       await sendTelegramMessage({
         botToken,
         chatId,
-        text: "Please share your delivery location.",
+        text:
+          "Please share your delivery location.\n\n" +
+          "If you're on Telegram Desktop (location sharing may be unavailable), paste a Google Maps link or coordinates like:\n" +
+          "- 9.0192, 38.7525",
         replyMarkup: {
           keyboard: [[{ text: "Share location", request_location: true }]],
           resize_keyboard: true,
@@ -622,6 +664,76 @@ export async function POST(request: Request) {
         address: "Shared via Telegram location",
         latitude: location.latitude,
         longitude: location.longitude,
+      },
+      items: itemsForOrder,
+      notes: "Ordered via Telegram bot",
+    });
+
+    await clearCart(userId);
+
+    await sendTelegramMessage({
+      botToken,
+      chatId,
+      text: `Order placed! ✅\nOrder #${order.id.slice(0, 6).toUpperCase()}\nStatus: ${order.status}\nTotal: ${formatCurrency(order.total)}`,
+      replyMarkup: { remove_keyboard: true },
+    });
+
+    await sendTelegramMessage({
+      botToken,
+      chatId,
+      text: "What next?",
+      replyMarkup: mainMenuKeyboard(),
+    });
+
+    return NextResponse.json({ ok: true });
+  }
+
+  const maybeLatLng = extractLatLngFromText(text);
+  if (maybeLatLng) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { phoneVerified: true },
+    });
+
+    if (!user?.phoneVerified) {
+      await sendTelegramMessage({
+        botToken,
+        chatId,
+        text: "Please share your contact first.",
+        replyMarkup: {
+          keyboard: [[{ text: "Share my phone number", request_contact: true }]],
+          resize_keyboard: true,
+          one_time_keyboard: true,
+        },
+      });
+      return NextResponse.json({ ok: true });
+    }
+
+    const cart = await getCartWithItems(userId);
+    const cartItems = cart?.items ?? [];
+    if (cartItems.length === 0) {
+      await sendTelegramMessage({
+        botToken,
+        chatId,
+        text: "Your cart is empty. Browse the menu to add items first.",
+        replyMarkup: mainMenuKeyboard(),
+      });
+      return NextResponse.json({ ok: true });
+    }
+
+    const itemsForOrder = cartItems.map((entry) => ({
+      menuItemId: entry.menuItemId,
+      name: entry.menuItem.name,
+      price: entry.menuItem.price,
+      quantity: entry.quantity,
+    }));
+
+    const order = await createOrder({
+      userId,
+      address: {
+        address: "Shared via Telegram map link",
+        latitude: maybeLatLng.lat,
+        longitude: maybeLatLng.lng,
       },
       items: itemsForOrder,
       notes: "Ordered via Telegram bot",
