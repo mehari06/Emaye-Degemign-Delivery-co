@@ -59,10 +59,11 @@ export default function Home() {
           </div>
           <div className="relative h-80 w-full overflow-hidden rounded-[32px] shadow-float sm:h-[420px]">
             <Image
-              src="/images/pizza-co/hero-bg3.avif"
+              src="/illustrations/hero_delivery.png"
               alt="Fresh food delivered fast"
               fill
-              className="object-cover"
+              className="object-contain p-4"
+              priority
             />
           </div>
         </Container>
@@ -120,7 +121,15 @@ export default function Home() {
 
       <section className="bg-white">
         <Container className="grid gap-10 py-16 lg:grid-cols-3">
-          <div className="rounded-2xl border border-border bg-white p-6 shadow-soft">
+          <div className="group rounded-2xl border border-border bg-white p-6 shadow-soft transition-all hover:shadow-float">
+            <div className="relative mb-6 h-40 w-full overflow-hidden rounded-xl bg-slate-50">
+              <Image
+                src="/illustrations/restaurant_prepping.png"
+                alt="Curated menus"
+                fill
+                className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
             <h3 className="text-lg font-semibold text-slate-900">
               Curated menus
             </h3>
@@ -128,7 +137,15 @@ export default function Home() {
               Seasoned dishes with fresh ingredients and bold flavor profiles.
             </p>
           </div>
-          <div className="rounded-2xl border border-border bg-white p-6 shadow-soft">
+          <div className="group rounded-2xl border border-border bg-white p-6 shadow-soft transition-all hover:shadow-float">
+            <div className="relative mb-6 h-40 w-full overflow-hidden rounded-xl bg-slate-50">
+              <Image
+                src="/illustrations/tracking_delivery.png"
+                alt="Live order tracking"
+                fill
+                className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
             <h3 className="text-lg font-semibold text-slate-900">
               Live order tracking
             </h3>
@@ -136,7 +153,19 @@ export default function Home() {
               Follow each step from kitchen prep to delivery arrival.
             </p>
           </div>
-          <div className="rounded-2xl border border-border bg-white p-6 shadow-soft">
+          <div className="group rounded-2xl border border-border bg-white p-6 shadow-soft transition-all hover:shadow-float">
+            <div className="relative mb-6 h-40 w-full overflow-hidden rounded-xl bg-brand-light/10">
+              <div className="absolute inset-0 flex items-center justify-center p-6">
+                <div className="relative h-full w-full">
+                  <Image
+                    src="/illustrations/hero_delivery.png"
+                    alt="Smart routing"
+                    fill
+                    className="object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            </div>
             <h3 className="text-lg font-semibold text-slate-900">
               Smart delivery routing
             </h3>
@@ -172,10 +201,10 @@ export default function Home() {
           </div>
           <div className="relative h-72 overflow-hidden rounded-[32px] shadow-float sm:h-96">
             <Image
-              src="/images/pizza-co/footer-illustration.png"
+              src="/illustrations/ordering_food.png"
               alt="Delivery experience preview"
               fill
-              className="object-cover"
+              className="object-contain p-8"
             />
           </div>
         </Container>
