@@ -57,7 +57,7 @@ export async function createOrderAction(payload: {
       notes: parsed.data.notes,
     });
     revalidatePath("/orders");
-    return { ok: true, orderId: order.id };
+    return { ok: true, orderId: order.id, email: user.email };
   } catch (error) {
     console.error("createOrderAction failed", error);
     return { ok: false, error: "Unable to create order right now." };

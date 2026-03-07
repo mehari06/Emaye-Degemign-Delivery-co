@@ -60,7 +60,7 @@ export default function CheckoutPage() {
             body: JSON.stringify({
               orderId: result.orderId,
               amount: subtotal + 80, // Subtotal + fixed delivery fee for demo
-              email: "customer@example.com", // In real app, get from user profile
+              email: result.email || "bereketmehari68@gmail.com",
               first_name: "Customer",
               last_name: "User",
             }),
