@@ -4,6 +4,11 @@ import { getCurrentUser } from "@/lib/auth";
 
 export async function POST(request: Request) {
     try {
+        if (!process.env.CHAPA_SECRET_KEY) {
+            console.error("Missing CHAPA_SECRET_KEY environment variable");
+            return NextResponse.json({ error: "Server configuration error: Missing API Key" }, { status: 500 });
+        }
+
         const user = await getCurrentUser();
         if (!user) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -28,6 +33,8 @@ export async function POST(request: Request) {
             },
         });
 
+        const baseUrl = (process.env.APP_BASE_URL || "http://localhost:3000").replace(/\/$/, "");
+
         const chapaRequestData = {
             amount: amount.toString(),
             currency: "ETB",
@@ -35,8 +42,8 @@ export async function POST(request: Request) {
             first_name: first_name || "Customer",
             last_name: last_name || "User",
             tx_ref: tx_ref,
-            callback_url: `${process.env.APP_BASE_URL}/api/chapa/webhook`, // Optional: for background status updates
-            return_url: `${process.env.APP_BASE_URL}/payment-success?tx_ref=${tx_ref}`,
+            callback_url: `${baseUrl}/api/chapa/webhook`,
+            return_url: `${baseUrl}/payment-success?tx_ref=${tx_ref}`,
             customization: {
                 title: "Emaye Degemign Delivery",
                 description: "Payment for food order",
@@ -57,8 +64,11 @@ export async function POST(request: Request) {
         if (data.status === "success") {
             return NextResponse.json({ checkout_url: data.data.checkout_url });
         } else {
-            console.error("Chapa initialization failed:", data);
-            return NextResponse.json({ error: data.message || "Failed to initialize transaction" }, { status: 400 });
+            console.error("Chapa initialization failed:", JSON.stringify(data, null, 2));
+            return NextResponse.json({
+                error: data.message || "Failed to initialize transaction",
+                details: data
+            }, { status: 400 });
         }
     } catch (error) {
         console.error("Chapa API Route Error:", error);

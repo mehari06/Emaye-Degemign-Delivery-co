@@ -69,10 +69,12 @@ export default function CheckoutPage() {
           const initData = await initResponse.json();
 
           if (initData.checkout_url) {
-            clear(); // Clear cart before redirect
+            clear();
             window.location.href = initData.checkout_url;
           } else {
-            toast.error("Payment initialization failed. Please try again.");
+            const errorMsg = initData.error || "Payment initialization failed.";
+            toast.error(errorMsg);
+            console.error("Payment init error:", initData);
           }
         } catch (error) {
           console.error("Payment error:", error);
@@ -126,8 +128,8 @@ export default function CheckoutPage() {
                   key={method.id}
                   onClick={() => setPaymentMethod(method.id as any)}
                   className={`flex flex-col items-center gap-2 rounded-xl border p-4 text-sm font-medium transition-all ${paymentMethod === method.id
-                      ? "border-brand bg-brand-light/10 text-brand ring-1 ring-brand"
-                      : "border-border bg-white text-slate-600 hover:bg-slate-50"
+                    ? "border-brand bg-brand-light/10 text-brand ring-1 ring-brand"
+                    : "border-border bg-white text-slate-600 hover:bg-slate-50"
                     }`}
                 >
                   <span className="text-2xl">{method.icon}</span>
