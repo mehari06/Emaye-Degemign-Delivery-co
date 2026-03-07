@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma/client";
 
 export async function GET(
     request: Request,
-    { params }: { params: { tx_ref: string } }
+    { params }: { params: Promise<{ tx_ref: string }> }
 ) {
-    const { tx_ref } = params;
+    const { tx_ref } = await params;
 
     if (!tx_ref) {
         return NextResponse.json({ error: "Missing transaction reference" }, { status: 400 });
