@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 const steps: OrderStatus[] = [
   "PENDING",
+  "PAID",
   "CONFIRMED",
   "PREPARING",
   "OUT_FOR_DELIVERY",
@@ -13,10 +14,12 @@ const steps: OrderStatus[] = [
 
 const labels: Record<OrderStatus, string> = {
   PENDING: "Order received",
-  CONFIRMED: "Confirmed",
-  PREPARING: "Preparing",
-  OUT_FOR_DELIVERY: "Out for delivery",
+  PAID: "Payment confirmed",
+  CONFIRMED: "Order confirmed",
+  PREPARING: "Preparing food",
+  OUT_FOR_DELIVERY: "In transit",
   DELIVERED: "Delivered",
+  CANCELLED: "Cancelled",
 };
 
 export function OrderTimeline({ status }: { status: OrderStatus }) {
