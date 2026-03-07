@@ -61,12 +61,24 @@ export async function POST(request: Request) {
 
         const data = await response.json();
 
-        if (data.status === "success") {
+        if (data.status === "success" && data.data?.checkout_url) {
             return NextResponse.json({ checkout_url: data.data.checkout_url });
         } else {
             console.error("Chapa initialization failed:", JSON.stringify(data, null, 2));
+
+            // Cleanly extract the error message so the frontend doesn't crash React
+            let msg = "Failed to initialize transaction";
+            if (typeof data.message === "string") {
+                msg = data.message;
+            } else if (data.message && typeof data.message === "object") {
+                // If message is an object (common in validation errors), stringify it
+                msg = Object.entries(data.message)
+                    .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`)
+                    .join(" | ");
+            }
+
             return NextResponse.json({
-                error: data.message || "Failed to initialize transaction",
+                error: msg,
                 details: data
             }, { status: 400 });
         }

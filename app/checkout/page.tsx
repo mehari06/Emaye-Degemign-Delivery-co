@@ -72,7 +72,9 @@ export default function CheckoutPage() {
             clear();
             window.location.href = initData.checkout_url;
           } else {
-            const errorMsg = initData.error || "Payment initialization failed.";
+            const errorMsg = typeof initData.error === 'string'
+              ? initData.error
+              : "Payment initialization failed.";
             toast.error(errorMsg);
             console.error("Payment init error:", initData);
           }
