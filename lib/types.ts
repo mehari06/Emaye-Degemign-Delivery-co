@@ -41,10 +41,12 @@ export type OrderItemInput = {
 
 export type OrderStatus =
   | "PENDING"
+  | "PAID"
   | "CONFIRMED"
   | "PREPARING"
   | "OUT_FOR_DELIVERY"
-  | "DELIVERED";
+  | "DELIVERED"
+  | "CANCELLED";
 
 export type OrderSummary = {
   id: string;

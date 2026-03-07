@@ -10,10 +10,19 @@ datasource db {
 
 enum OrderStatus {
   PENDING
+  PAID
   CONFIRMED
   PREPARING
   OUT_FOR_DELIVERY
   DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CHAPA
+  TELEBIRR
+  CBE_BIRR
 }
 
 enum AuthProvider {
@@ -104,13 +113,16 @@ model Order {
   id          String      @id @default(uuid()) @db.Uuid
   userId      String      @db.Uuid
   addressId   String      @db.Uuid
-  status      OrderStatus @default(PENDING)
-  subtotal    Int
-  deliveryFee Int
-  total       Int
-  notes       String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  status           OrderStatus   @default(PENDING)
+  paymentStatus    String        @default("unpaid")
+  paymentMethod    PaymentMethod @default(CASH)
+  paymentReference String?       @unique
+  subtotal         Int
+  deliveryFee      Int
+  total            Int
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   address Address   @relation(fields: [addressId], references: [id])
   user    User      @relation(fields: [userId], references: [id])
