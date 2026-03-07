@@ -21,8 +21,9 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
-        // Generate a unique transaction reference
-        const tx_ref = `tx-${orderId}-${Date.now()}`;
+        // Generate a unique transaction reference (Max 50 chars)
+        // UUID(36) + "tx-"(3) = 39. This is safe. 
+        const tx_ref = `tx-${orderId}`;
 
         // Update order with payment reference and method
         await prisma.order.update({
@@ -45,8 +46,8 @@ export async function POST(request: Request) {
             callback_url: `${baseUrl}/api/chapa/webhook`,
             return_url: `${baseUrl}/payment-success?tx_ref=${tx_ref}`,
             customization: {
-                title: "Emaye Degemign Delivery",
-                description: "Payment for food order",
+                title: "Emaye Delivery", // Max 16 characters
+                description: "Order Payment",
             },
         };
 
