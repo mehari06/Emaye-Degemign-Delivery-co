@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { OrderCard } from "@/components/orders/OrderCard";
@@ -72,7 +73,15 @@ export default async function OrdersPage() {
             </div>
           </div>
         ) : (
-          <div className="rounded-2xl border border-border bg-white p-10 text-center shadow-soft">
+          <div className="flex flex-col items-center gap-6 rounded-2xl border border-border bg-white p-10 text-center shadow-soft">
+            <div className="relative h-48 w-48">
+              <Image
+                src="/illustrations/tracking_delivery.png"
+                alt="No orders yet"
+                fill
+                className="object-contain"
+              />
+            </div>
             <p className="text-sm text-slate-600">
               You have no orders yet. Explore the menu to start a new delivery.
             </p>
