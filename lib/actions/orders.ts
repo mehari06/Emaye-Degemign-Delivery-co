@@ -101,10 +101,10 @@ export async function updateOrderStatusAction(
 
 export async function assignOrderAction(orderId: string, formData: FormData) {
   const user = await getCurrentUser();
-  if (!user || !isAdminUser(user)) return { error: "Unauthorized" };
+  if (!user || !isAdminUser(user)) return;
 
   const deliveryPersonId = formData.get("deliveryPersonId") as string;
-  if (!deliveryPersonId) return { error: "No delivery person selected" };
+  if (!deliveryPersonId) return;
 
   try {
     await prisma.order.update({
@@ -115,9 +115,7 @@ export async function assignOrderAction(orderId: string, formData: FormData) {
       },
     });
     revalidatePath("/admin/orders");
-    return { success: true };
   } catch (error) {
     console.error("assignOrderAction failed", error);
-    return { error: "Failed to assign order" };
   }
 }
