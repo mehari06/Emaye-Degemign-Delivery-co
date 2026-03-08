@@ -5,6 +5,7 @@ import { createTelegramSession, type TelegramAuthPayload } from "@/lib/telegram"
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { addCartItem, clearCart, getCartWithItems } from "@/lib/services/cart";
 import { createOrder, getOrdersForUser } from "@/lib/services/orders";
+import { initializeChapa } from "@/lib/services/chapa";
 
 type TelegramUpdate = {
   update_id: number;
@@ -678,12 +679,35 @@ export async function POST(request: Request) {
       replyMarkup: { remove_keyboard: true },
     });
 
-    await sendTelegramMessage({
-      botToken,
-      chatId,
-      text: "What next?",
-      replyMarkup: mainMenuKeyboard(),
-    });
+    try {
+      const chapaResult = await initializeChapa({
+        amount: order.total,
+        email: from.username ? `${from.username}@telegram.com` : "customer@telegram.com",
+        first_name: from.first_name,
+        last_name: from.last_name || "",
+        orderId: order.id,
+      });
+
+      await sendTelegramMessage({
+        botToken,
+        chatId,
+        text: "You can pay now via Telebirr or CBE Birr using Chapa secure gateway:",
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: "💳 Pay Now (ETB)", url: chapaResult.checkout_url }],
+            [{ text: "🏠 Home", callback_data: "home" }],
+          ],
+        },
+      });
+    } catch (chapaError) {
+      console.error("Telegram Chapa Init Error:", chapaError);
+      await sendTelegramMessage({
+        botToken,
+        chatId,
+        text: "What next?",
+        replyMarkup: mainMenuKeyboard(),
+      });
+    }
 
     return NextResponse.json({ ok: true });
   }
@@ -748,12 +772,35 @@ export async function POST(request: Request) {
       replyMarkup: { remove_keyboard: true },
     });
 
-    await sendTelegramMessage({
-      botToken,
-      chatId,
-      text: "What next?",
-      replyMarkup: mainMenuKeyboard(),
-    });
+    try {
+      const chapaResult = await initializeChapa({
+        amount: order.total,
+        email: from.username ? `${from.username}@telegram.com` : "customer@telegram.com",
+        first_name: from.first_name,
+        last_name: from.last_name || "",
+        orderId: order.id,
+      });
+
+      await sendTelegramMessage({
+        botToken,
+        chatId,
+        text: "You can pay now via Telebirr or CBE Birr using Chapa secure gateway:",
+        replyMarkup: {
+          inline_keyboard: [
+            [{ text: "💳 Pay Now (ETB)", url: chapaResult.checkout_url }],
+            [{ text: "🏠 Home", callback_data: "home" }],
+          ],
+        },
+      });
+    } catch (chapaError) {
+      console.error("Telegram Chapa Init Error:", chapaError);
+      await sendTelegramMessage({
+        botToken,
+        chatId,
+        text: "What next?",
+        replyMarkup: mainMenuKeyboard(),
+      });
+    }
 
     return NextResponse.json({ ok: true });
   }
