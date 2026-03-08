@@ -30,6 +30,8 @@ export type AddressInput = {
   address: string;
   latitude: number;
   longitude: number;
+  condoBlock?: string;
+  condoRoom?: string;
 };
 
 export type OrderItemInput = {

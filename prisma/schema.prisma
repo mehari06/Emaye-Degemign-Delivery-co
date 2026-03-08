@@ -25,25 +25,35 @@ enum PaymentMethod {
   CBE_BIRR
 }
 
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  DELIVERY
+}
+
 enum AuthProvider {
   GOOGLE
   TELEGRAM
+  EMAIL
 }
 
 model User {
-  id               String    @id @db.Uuid
-  email            String?   @unique
+  id               String       @id @db.Uuid
+  email            String?      @unique
   name             String?
   phone            String?
-  phoneVerified    Boolean   @default(false)
+  phoneVerified    Boolean      @default(false)
   phoneVerifiedAt  DateTime?
   provider         AuthProvider
-  telegramId       String?   @unique
+  role             UserRole     @default(CUSTOMER)
+  telegramId       String?      @unique
   telegramUsername String?
-  createdAt        DateTime  @default(now())
+  createdAt        DateTime     @default(now())
   addresses        Address[]
   orders           Order[]
   cart             Cart?
+  
+  assignedOrders   Order[]      @relation("DeliveryPersonOrders")
 }
 
 model Cart {
@@ -71,13 +81,15 @@ model CartItem {
 }
 
 model Address {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  label     String?
-  address   String
-  latitude  Float
-  longitude Float
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  label      String?
+  address    String
+  latitude   Float
+  longitude  Float
+  condoBlock String?
+  condoRoom  String?
+  createdAt  DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
   orders Order[]
@@ -110,9 +122,9 @@ model MenuItem {
 }
 
 model Order {
-  id          String      @id @default(uuid()) @db.Uuid
-  userId      String      @db.Uuid
-  addressId   String      @db.Uuid
+  id               String        @id @default(uuid()) @db.Uuid
+  userId           String        @db.Uuid
+  addressId        String        @db.Uuid
   status           OrderStatus   @default(PENDING)
   paymentStatus    String        @default("unpaid")
   paymentMethod    PaymentMethod @default(CASH)
@@ -123,6 +135,9 @@ model Order {
   notes            String?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+
+  deliveryPersonId String?      @db.Uuid
+  deliveryPerson   User?        @relation("DeliveryPersonOrders", fields: [deliveryPersonId], references: [id])
 
   address Address   @relation(fields: [addressId], references: [id])
   user    User      @relation(fields: [userId], references: [id])

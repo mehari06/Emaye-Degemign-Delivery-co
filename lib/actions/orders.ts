@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { prisma } from "@/lib/prisma/client";
 import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { createOrder, updateOrderStatus } from "@/lib/services/orders";
 import { upsertGoogleUser } from "@/lib/services/users";
@@ -18,6 +19,8 @@ const AddressSchema = z.object({
   address: z.string().min(3),
   latitude: z.number(),
   longitude: z.number(),
+  condoBlock: z.string().optional(),
+  condoRoom: z.string().optional(),
 });
 
 export async function createOrderAction(payload: {
@@ -93,5 +96,28 @@ export async function updateOrderStatusAction(
     revalidatePath("/orders");
   } catch {
     return;
+  }
+}
+
+export async function assignOrderAction(orderId: string, formData: FormData) {
+  const user = await getCurrentUser();
+  if (!user || !isAdminUser(user)) return { error: "Unauthorized" };
+
+  const deliveryPersonId = formData.get("deliveryPersonId") as string;
+  if (!deliveryPersonId) return { error: "No delivery person selected" };
+
+  try {
+    await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        deliveryPersonId,
+        status: "CONFIRMED" // When assigned, it's usually confirmed
+      },
+    });
+    revalidatePath("/admin/orders");
+    return { success: true };
+  } catch (error) {
+    console.error("assignOrderAction failed", error);
+    return { error: "Failed to assign order" };
   }
 }

@@ -72,11 +72,11 @@ function parseCommaSeparatedEnv(value: string | undefined) {
 export function isAdminUser(
   user:
     | {
-        id: string;
-        email?: string;
-        telegramUsername?: string;
-        telegramId?: string;
-      }
+      id: string;
+      email?: string;
+      telegramUsername?: string;
+      telegramId?: string;
+    }
     | null,
 ) {
   if (!user) return false;
@@ -112,4 +112,13 @@ export function isAdminUser(
   }
 
   return false;
+}
+
+export function isDeliveryUser(user: any) {
+  return (user as { role?: string })?.role === "DELIVERY";
+}
+
+export function isAnyStaff(user: any) {
+  const role = (user as { role?: string })?.role;
+  return role === "ADMIN" || role === "DELIVERY";
 }

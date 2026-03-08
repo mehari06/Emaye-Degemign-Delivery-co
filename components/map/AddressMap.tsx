@@ -58,16 +58,28 @@ export function AddressMap({
       const L = mod as unknown as LeafletModule;
       leafletRef.current = L;
 
+      // Hawassa Focus
+      const HAWASSA_CENTER: [number, number] = [7.06, 38.48];
+      const HAWASSA_BOUNDS: [[number, number], [number, number]] = [
+        [7.00, 38.40], // Southwest
+        [7.12, 38.56], // Northeast
+      ];
+
       L.Icon.Default.mergeOptions({
         iconUrl: markerIcon.src,
         shadowUrl: markerShadow.src,
       });
 
       const initial = valueRef.current;
-      const map = L.map(containerRef.current).setView(
-        [initial.latitude, initial.longitude],
-        13,
-      );
+      const initialCoords: [number, number] = initial.latitude === 7.06 && initial.longitude === 38.48
+        ? HAWASSA_CENTER
+        : [initial.latitude, initial.longitude];
+
+      const map = L.map(containerRef.current, {
+        maxBounds: HAWASSA_BOUNDS,
+        minZoom: 12,
+      }).setView(initialCoords, 14);
+
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

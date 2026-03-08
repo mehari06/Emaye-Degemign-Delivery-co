@@ -36,6 +36,8 @@ export async function createOrder({
           address: address.address,
           latitude: address.latitude,
           longitude: address.longitude,
+          condoBlock: address.condoBlock,
+          condoRoom: address.condoRoom,
           user: {
             connect: {
               id: userId,
@@ -91,6 +93,7 @@ export async function getAllOrders() {
       user: true,
       items: { include: { menuItem: true } },
       address: true,
+      deliveryPerson: true,
     },
   });
 }
