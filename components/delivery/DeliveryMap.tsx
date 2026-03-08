@@ -35,7 +35,6 @@ export function DeliveryMap({ orders }: { orders: OrderMarker[] }) {
 
             const mod = await import("leaflet");
             if (cancelled) return;
-            await import("leaflet/dist/leaflet.css");
 
             const L = mod as unknown as LeafletModule;
 
