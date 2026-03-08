@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/layout/SectionHeading";
 import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
 import { Select } from "@/components/ui/Select";
 import { OrdersRealtimeObserver } from "@/components/realtime/OrdersRealtimeObserver";
-import { updateOrderStatusAction, assignOrderAction } from "@/lib/actions/orders";
+import { updateOrderStatusAction, assignDeliveryHeroAction } from "@/lib/actions/orders";
 import { getDeliveryPersons } from "@/lib/actions/delivery";
 import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { getAllOrders } from "@/lib/services/orders";
@@ -131,7 +131,7 @@ export default async function AdminOrdersPage() {
 
                   {/* Delivery Hero Assignment Form */}
                   <form
-                    action={assignOrderAction.bind(null, order.id)}
+                    action={assignDeliveryHeroAction.bind(null, order.id)}
                     className="flex flex-col gap-2"
                   >
                     <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Assign Delivery Hero</label>

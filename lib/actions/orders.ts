@@ -99,7 +99,7 @@ export async function updateOrderStatusAction(
   }
 }
 
-export async function assignOrderAction(orderId: string, formData: FormData) {
+export async function assignDeliveryHeroAction(orderId: string, formData: FormData): Promise<void> {
   const user = await getCurrentUser();
   if (!user || !isAdminUser(user)) return;
 
