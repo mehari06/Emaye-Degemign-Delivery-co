@@ -91,10 +91,12 @@ export default async function AdminOrdersPage() {
                 >
                   <Select name="status" defaultValue={order.status}>
                     <option value="PENDING">Pending</option>
+                    <option value="PAID">Paid (Success)</option>
                     <option value="CONFIRMED">Confirmed</option>
                     <option value="PREPARING">Preparing</option>
                     <option value="OUT_FOR_DELIVERY">Out for delivery</option>
                     <option value="DELIVERED">Delivered</option>
+                    <option value="CANCELLED">Cancelled</option>
                   </Select>
                   <button className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white">
                     Update status

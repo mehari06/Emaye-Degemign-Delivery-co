@@ -74,10 +74,12 @@ export async function updateOrderStatusAction(
 
   const allowed = [
     "PENDING",
+    "PAID",
     "CONFIRMED",
     "PREPARING",
     "OUT_FOR_DELIVERY",
     "DELIVERED",
+    "CANCELLED",
   ];
 
   const status = String(formData.get("status") ?? "");
